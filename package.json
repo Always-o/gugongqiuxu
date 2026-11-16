@@ -1,0 +1,26 @@
+{
+  "name": "gugongqiuxu",
+  "version": "1.0.0",
+  "private": true,
+  "description": "故宫秋序 · 按秋序三时重游紫禁城的秋日数字雅集（纯前端 / 零依赖）",
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "serve": "node scripts/serve.mjs",
+    "check": "node --check scripts/serve.mjs && node --check js/data.js && node --check js/scene.js && node --check js/ai.js && node --check js/app.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "keywords": [
+    "故宫",
+    "数字展陈",
+    "HTML5",
+    "Canvas",
+    "SVG",
+    "零依赖"
+  ],
+  "license": "UNLICENSED"
+}
