@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>故宫秋序 · 一城秋序，半部京华</title>
+<meta name="description" content="故宫秋序：按初秋、仲秋、暮秋三段时令重游紫禁城，收六件秋季文物、七首秋诗、六个节气，附四个可以当场试的图像与文字模块。">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- 落叶粒子层 -->
+<canvas id="leafLayer" aria-hidden="true"></canvas>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor-wind" id="cursorWind" aria-hidden="true"></div>
+
+<!-- ============ 导航 ============ -->
+<header class="nav" id="nav">
+  <a class="nav-brand" href="#hero">
+    <span class="brand-seal">秋</span>
+    <span class="brand-text">故宫秋序</span>
+  </a>
+  <nav class="nav-links" id="navLinks">
+    <a href="#timeline" data-nav>秋序</a>
+    <a href="#scenery" data-nav>秋景</a>
+    <a href="#relics" data-nav>秋物</a>
+    <a href="#poetry" data-nav>秋诗</a>
+    <a href="#studio" data-nav>工坊</a>
+    <a href="#classroom" data-nav>课堂</a>
+    <a href="#guide" data-nav>导览</a>
+    <a href="#about" data-nav>关于</a>
+  </nav>
+  <div class="nav-meta">
+    <span class="nav-term" id="navTerm">立冬</span>
+    <span class="nav-sep"></span>
+    <span class="nav-clock" id="navClock">--:--</span>
+  </div>
+  <button class="nav-toggle" id="navToggle" aria-label="菜单"><i></i><i></i><i></i></button>
+</header>
+
+<main>
+
+<!-- ============ 壹 · 首页 ============ -->
+<section id="hero" class="hero">
+  <div class="hero-scene" id="heroScene"></div>
+  <div class="hero-veil"></div>
+
+  <div class="hero-inner">
+    <div class="hero-poem" aria-hidden="true">
+      <span>一</span><span>城</span><span>秋</span><span>序</span>
+      <span class="hp-gap"></span>
+      <span>半</span><span>部</span><span>京</span><span>华</span>
+      <i class="seal">秋序</i>
+    </div>
+
+    <div class="hero-main">
+      <p class="hero-kicker">处暑 — 立冬 · 紫禁城的九十来天</p>
+      <h1 class="hero-title">
+        <span class="ht-line">故宫</span><span class="ht-line ht-accent">秋序</span>
+      </h1>
+      <p class="hero-sub">
+        秋天在紫禁城有九十来天。从处暑的第一阵凉风，到立冬檐上的一层薄霜。<br>
+        这段时间里，宫墙换三次颜色，银杏黄一层，月圆一次。
+      </p>
+      <div class="hero-actions">
+        <a href="#studio" class="btn btn-solid">试一张秋景</a>
+        <a href="#timeline" class="btn btn-ghost">从初秋看起</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 今日秋光 -->
+  <div class="hero-status" id="heroStatus">
+    <div class="hs-item">
+      <em>今日</em>
+      <strong id="heroDate">—</strong>
+    </div>
+    <div class="hs-item">
+      <em>时令</em>
+      <strong id="heroTerm">—</strong>
+    </div>
+    <div class="hs-item hs-wide">
+      <em>光影建议</em>
+      <strong id="heroLight">—</strong>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><span>下 滑 入 秋</span><i></i></div>
+</section>
+
+<!-- ============ 贰 · 秋序时间轴 ============ -->
+<section id="timeline" class="section">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-num">壹</span>
+      <h2 class="sec-title">秋序三时</h2>
+      <p class="sec-sub">8.22 — 11.22　九十来天</p>
+      <p class="sec-lead">紫禁城的秋不是一天来的。处暑起风，秋分月圆，霜降之后银杏一夜黄透。三段日子，宫墙三种颜色，看的人也换三种心情。</p>
+    </header>
+
+    <div class="phase-track reveal" id="phaseTabs"></div>
+    <div class="phase-detail" id="phaseDetail"></div>
+  </div>
+</section>
+
+<!-- ============ 叁 · 秋景万象 ============ -->
+<section id="scenery" class="section section-dark">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-num">贰</span>
+      <h2 class="sec-title">秋景万象</h2>
+      <p class="sec-sub">太和殿　御花园　角楼　金水河</p>
+      <p class="sec-lead">同一座太和殿，夏天和秋天看着像两栋建筑。拖开中间这条线，左边留夏，右边入秋。下面四个位置，是宫里秋天最常被拍到的几处。</p>
+    </header>
+
+    <div class="compare reveal" id="compare">
+      <div class="cmp-layer" id="cmpSummer"></div>
+      <div class="cmp-layer cmp-autumn" id="cmpAutumn"></div>
+      <div class="cmp-bar" id="cmpBar"><span class="cmp-knob">秋</span></div>
+      <span class="cmp-tag cmp-tag-l">盛夏</span>
+      <span class="cmp-tag cmp-tag-r">深秋</span>
+      <span class="cmp-hint">← 拖动 →</span>
+    </div>
+
+    <div class="scene-grid" id="sceneGrid"></div>
+  </div>
+</section>
+
+<!-- ============ 肆 · 秋物藏珍 ============ -->
+<section id="relics" class="section">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-num">叁</span>
+      <h2 class="sec-title">秋物藏珍</h2>
+      <p class="sec-sub">六件　缂丝 · 书画 · 瓷 · 漆 · 刺绣</p>
+      <p class="sec-lead">宫里与秋天有关的器物很多，这里只留六件。挑的标准很简单：一眼能看出季节的。梧桐叶、南飞的雁、九月的菊、霜后的枫，都长在上面。</p>
+    </header>
+    <div class="relic-grid" id="relicGrid"></div>
+    <p class="note-line reveal">※ 以上解说据公开馆藏资料整理，供科普参考；确切信息以故宫博物院官方著录为准。</p>
+  </div>
+</section>
+
+<!-- ============ 伍 · 秋诗雅韵 ============ -->
+<section id="poetry" class="section section-paper">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-num">肆</span>
+      <h2 class="sec-title">秋诗雅韵</h2>
+      <p class="sec-sub">唐诗六首　宋诗一首　皆为原作</p>
+      <p class="sec-lead">这七首不是我写的，是从唐诗宋词里挑的，挑的理由都写在每首下面。再往下可以自己试：给一个词，让它按格律凑一首七绝，凑得像不像，你说了算。</p>
+    </header>
+    <div class="poem-grid" id="poemGrid"></div>
+  </div>
+</section>
+
+<!-- ============ 陆 · AI 创作工坊 ============ -->
+<section id="studio" class="section section-dark studio">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-num">伍</span>
+      <h2 class="sec-title">秋序工坊</h2>
+      <p class="sec-sub">四个模块　全部在浏览器里算</p>
+      <p class="sec-lead">这四个模块都跑在你自己的电脑上，照片不出本机，断网也能用。没有调大模型，靠的是像素运算和格律规则现算，出一张大约一秒。</p>
+    </header>
+
+    <div class="studio-shell reveal">
+      <div class="studio-tabs" id="studioTabs">
+        <button class="st-tab is-active" data-tab="gen"><b>一</b>秋景生成</button>
+        <button class="st-tab" data-tab="restore"><b>二</b>古画活化</button>
+        <button class="st-tab" data-tab="make"><b>三</b>诗词创作</button>
+        <button class="st-tab" data-tab="ask"><b>四</b>节气问答</button>
+      </div>
+
+      <!-- 一 · 秋景生成 -->
+      <div class="st-panel is-active" data-panel="gen">
+        <div class="gen-grid">
+          <div class="gen-left">
+            <div class="drop" id="genDrop">
+              <input type="file" id="genInput" accept="image/*" hidden>
+              <div class="drop-inner" id="genEmpty">
+                <span class="drop-icon">秋</span>
+                <p class="drop-title">拖入任意一张照片</p>
+                <p class="drop-sub">故宫照片、随手拍的风景、手绘草图，都能改成国风</p>
+                <div class="drop-acts">
+                  <button class="btn btn-solid btn-sm" id="genPick">选择图片</button>
+                  <button class="btn btn-ghost btn-sm" id="genDemo">用示例图</button>
+                </div>
+              </div>
+              <canvas id="genPreview" class="gen-preview" hidden></canvas>
+              <button class="drop-reset" id="genReset" hidden>重新选择</button>
+            </div>
+            <div class="style-picker" id="genStyles"></div>
+            <button class="btn btn-solid btn-block" id="genRun" disabled>开始迁移</button>
+            <div class="gen-prog" id="genProg"><span></span></div>
+          </div>
+          <div class="gen-right">
+            <div class="result-frame">
+              <canvas id="genResult"></canvas>
+              <div class="result-empty" id="genResultEmpty">
+                <span>绢</span>
+                <p>生成结果放这儿</p>
+              </div>
+            </div>
+            <div class="result-meta" id="genMeta">四种画种 · 像素级重绘 · 约 1 秒完成</div>
+            <div class="result-acts">
+              <button class="btn btn-ghost btn-sm" id="genDownload" disabled>下载作品</button>
+              <button class="btn btn-ghost btn-sm" id="genAgain" disabled>再生成一次</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 二 · 古画活化 -->
+      <div class="st-panel" data-panel="restore">
+        <div class="restore-grid">
+          <div class="restore-stage" id="restoreStage">
+            <canvas id="restoreBase"></canvas>
+            <canvas id="restoreDamage"></canvas>
+            <div class="live-layer" id="liveLayer">
+              <svg class="live-cloud" viewBox="0 0 600 200" preserveAspectRatio="none">
+                <ellipse cx="150" cy="70" rx="120" ry="16" fill="#fff" opacity=".5"/>
+                <ellipse cx="380" cy="100" rx="150" ry="14" fill="#fff" opacity=".4"/>
+              </svg>
+              <svg class="live-geese" viewBox="0 0 300 80">
+                <g stroke="#3c2a1c" stroke-width="2" fill="none" stroke-linecap="round">
+                  <path d="M20 40 q8-7 16 0 M36 40 q8-7 16 0"/>
+                  <path d="M70 28 q7-6 14 0 M84 28 q7-6 14 0"/>
+                  <path d="M120 46 q7-6 14 0 M134 46 q7-6 14 0"/>
+                </g>
+              </svg>
+              <div class="live-leaves" id="liveLeaves"></div>
+            </div>
+          </div>
+          <div class="restore-panel">
+            <h3 class="rp-title">古画智能修复 · 动态活化</h3>
+            <p class="rp-desc">左图是仿的暮秋绢本，故意做旧：泛黄、开裂、颜料剥落。拉滑杆一格一格修回去，修完点「活化」，画里的雁会飞、叶子会落。</p>
+            <label class="slider-label">修复进度 <b id="restorePct">0%</b></label>
+            <input type="range" id="restoreRange" min="0" max="100" value="0" class="slider">
+            <div class="rp-steps" id="restoreSteps">
+              <span data-at="0">原始状态</span>
+              <span data-at="35">去黄除霉</span>
+              <span data-at="70">补色还原</span>
+              <span data-at="100">全幅复原</span>
+            </div>
+            <div class="rp-acts">
+              <button class="btn btn-solid btn-sm" id="restoreAuto">一键修复</button>
+              <button class="btn btn-ghost btn-sm" id="restoreReset">还原破损</button>
+              <button class="btn btn-ghost btn-sm" id="restoreLive">活化静画</button>
+            </div>
+            <p class="rp-status" id="restoreStatus">状态：待修复</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 三 · 诗词创作 -->
+      <div class="st-panel" data-panel="make">
+        <div class="make-grid">
+          <div class="make-form">
+            <label class="field-label">给一个词，或一句心境</label>
+            <input type="text" id="poemKeyword" class="input" value="故宫落枫" maxlength="16" placeholder="如：太和秋光 / 御园晚秋">
+            <div class="chip-row" id="poemChips">
+              <button class="chip">故宫落枫</button>
+              <button class="chip">太和秋光</button>
+              <button class="chip">御园晚秋</button>
+              <button class="chip">角楼待月</button>
+              <button class="chip">金水寒烟</button>
+            </div>
+            <label class="field-label">体裁</label>
+            <div class="seg" id="poemForm">
+              <button class="is-active" data-form="jueju">七言绝句</button>
+              <button data-form="duanju">古风短句</button>
+              <button data-form="copy">秋日文案</button>
+            </div>
+            <button class="btn btn-solid btn-block" id="poemRun">生成</button>
+            <p class="field-hint">引擎：四个韵部 × 三类句式，按起承转合排位</p>
+          </div>
+          <div class="make-out">
+            <div class="poem-sheet" id="poemSheet">
+              <div class="ps-empty">诗成之后，落于此纸</div>
+            </div>
+            <div class="make-acts">
+              <button class="btn btn-ghost btn-sm" id="posterRun" disabled>合成诗画海报</button>
+              <a class="btn btn-ghost btn-sm" id="posterDown" download="故宫秋序-诗画海报.png" hidden>下载海报</a>
+            </div>
+            <canvas id="posterCanvas" class="poster-canvas" hidden></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四 · 节气问答 -->
+      <div class="st-panel" data-panel="ask">
+        <div class="ask-grid">
+          <div class="ask-main">
+            <div class="ask-head">
+              <div class="ask-avatar">序</div>
+              <div>
+                <strong>秋序讲解员</strong>
+                <em>六个节气 · 可以语音问</em>
+              </div>
+              <button class="ask-voice" id="askVoice" title="语音播报">声</button>
+            </div>
+            <div class="ask-log" id="askLog"></div>
+            <div class="ask-chips" id="askChips">
+              <button class="chip">霜降那天宫里做什么？</button>
+              <button class="chip">角楼几点最好看？</button>
+              <button class="chip">推荐一条暮秋路线</button>
+              <button class="chip">故宫秋色为什么是这个配色？</button>
+            </div>
+            <form class="ask-bar" id="askForm">
+              <button type="button" class="ask-mic" id="askMic" title="语音输入">语音</button>
+              <input type="text" id="askInput" class="input" placeholder="问一个关于故宫秋天的问题⋯⋯" autocomplete="off">
+              <button type="submit" class="ask-send">送出</button>
+            </form>
+          </div>
+          <aside class="ask-side">
+            <h4>它能回答什么</h4>
+            <ul>
+              <li><b>六节气</b>三候、宫中旧俗、对应纹样</li>
+              <li><b>建筑光影</b>何时何地拍最好</li>
+              <li><b>秋物</b>材质、工艺、秋日寓意</li>
+              <li><b>路线</b>按时令与光线推荐</li>
+            </ul>
+            <p class="ask-tip">提示：语音输入需在 Chrome / Edge 中使用，并允许麦克风权限。</p>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 柒 · 秋序课堂 ============ -->
+<section id="classroom" class="section">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-num">陆</span>
+      <h2 class="sec-title">秋序课堂</h2>
+      <p class="sec-sub">处暑　白露　秋分　寒露　霜降　立冬</p>
+      <p class="sec-lead">六个节气一个连一个，串起整个秋天。点开任意一格，看看宫里那天在做什么、用什么器物、写哪句诗。</p>
+    </header>
+
+    <div class="term-line" id="termLine"></div>
+    <div class="term-grid" id="termGrid"></div>
+    <div class="term-detail" id="termDetail"></div>
+  </div>
+</section>
+
+<!-- ============ 捌 · 秋日导览 ============ -->
+<section id="guide" class="section section-paper">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-num">柒</span>
+      <h2 class="sec-title">秋日导览</h2>
+      <p class="sec-sub">三条线　每条 2—3 小时</p>
+      <p class="sec-lead">别的导览给你一张固定地图。这里先看你今天落在哪个节气、现在几点，再决定推哪条线。三条线都按光线排的站序，时间算得偏紧，不含排队和休息。</p>
+    </header>
+
+    <div class="guide-now reveal" id="guideNow"></div>
+    <div class="guide-grid">
+      <div class="route-list reveal" id="routeList"></div>
+      <div class="route-detail reveal" id="routeDetail"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 玖 · 关于作品 ============ -->
+<section id="about" class="section section-dark about">
+  <div class="wrap">
+    <header class="sec-head reveal">
+      <span class="sec-num">捌</span>
+      <h2 class="sec-title">关于作品</h2>
+      <p class="sec-sub">设计说明　技术实现</p>
+      <p class="sec-lead">一开始只想做个故宫专题，做完发现按「类别」排会很散：建筑一堆、文物一堆、诗一堆，看完记不住。后来改成按时间排——秋天怎么来的，页面就怎么展开。</p>
+    </header>
+
+    <div class="about-grid">
+      <div class="about-col reveal">
+        <h3 class="ab-title"><i>壹</i>五个创新点</h3>
+        <ol class="inno-list">
+          <li><b>只做秋天</b><span>故宫专题站很多，专做秋季的少。不做四季，不做通史，只做这九十来天。</span></li>
+          <li><b>算法都在本地</b><span>四个模块跑在浏览器里，照片不上传、断网可用，现场随时可以点开演示。</span></li>
+          <li><b>按时间编目</b><span>文物、诗词、节气不按类别摆，按它们在秋天里出现的先后排。</span></li>
+          <li><b>页面本身是秋景</b><span>落叶、流云、光影都是算出来画出来的，不是贴图；古画点一下会动。</span></li>
+          <li><b>能拿去上课</b><span>六个节气的讲法按中学课本的深浅写，可以直接当美育课的素材。</span></li>
+        </ol>
+      </div>
+
+      <div class="about-col reveal">
+        <h3 class="ab-title"><i>贰</i>技术架构</h3>
+        <div class="arch">
+          <div class="arch-row"><em>表现层</em><span>HTML5 · CSS3 动画 · SVG 程序化场景</span></div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-row"><em>交互层</em><span>原生 JavaScript（零框架依赖）· IntersectionObserver · Pointer Events</span></div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-row"><em>算法层</em><span>Canvas 像素运算 · 边缘检测（Sobel）· 色谱映射 · 韵部格律引擎 · 关键词匹配</span></div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-row"><em>数据层</em><span>节气 / 文物 / 诗库 / 路线 结构化 JSON</span></div>
+          <div class="arch-arrow">↓</div>
+          <div class="arch-row"><em>输出层</em><span>Canvas 合成 · PNG 导出 · Web Speech（TTS / ASR）</span></div>
+        </div>
+        <div class="stack-chips">
+          <span>HTML5</span><span>CSS3</span><span>JavaScript</span><span>Canvas 2D</span>
+          <span>SVG</span><span>Web Speech API</span><span>响应式</span><span>零依赖</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cap-grid" id="capGrid"></div>
+
+    <div class="about-foot reveal">
+      <div class="af-quote">
+        <p>「秋到紫禁城，不必远行。<br>抬头是檐角，低头是落叶。」</p>
+      </div>
+      <div class="af-note">
+        <p><b>这个站想解决什么</b></p>
+        <p>故宫的资料不缺，缺的是看完能记住的顺序。所以这里不按建筑、文物、书画分栏，改成跟着节气往下走：一格节气，配一处建筑、一件器物、一句诗。九十来天走完，紫禁城的秋天就串成一条线，而不是一堆词条。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="foot-inner">
+    <div class="foot-brand">故宫秋序</div>
+    <div class="foot-links">
+      <a href="#hero">回到开篇</a>
+      <a href="#studio">工坊</a>
+      <a href="#about">技术说明</a>
+    </div>
+    <p class="foot-note">场景与建筑全部由代码绘制，未使用实景照片；文物解说据公开资料整理，供科普参考。<br>本站与故宫博物院无隶属关系。</p>
+  </div>
+</footer>
+
+<!-- 文物详情 -->
+<div class="modal" id="modal" aria-hidden="true">
+  <div class="modal-mask" data-close></div>
+  <div class="modal-card" role="dialog" aria-modal="true">
+    <button class="modal-x" data-close aria-label="关闭">×</button>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/scene.js"></script>
+<script src="js/ai.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
