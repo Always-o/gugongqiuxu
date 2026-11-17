@@ -150,10 +150,26 @@
     navLinks.forEach((a, i) => a.classList.toggle('is-on', i === idx));
   }
 
-  $('#navToggle').addEventListener('click', function () {
-    $('#navLinks').classList.toggle('is-open');
+  const navToggle = $('#navToggle');
+  const navPanel = $('#navLinks');
+
+  function setMenu(open) {
+    navPanel.classList.toggle('is-open', open);
+    nav.classList.toggle('is-menu', open);
+    document.body.classList.toggle('is-locked', open);
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+
+  navToggle.addEventListener('click', function () {
+    setMenu(!navPanel.classList.contains('is-open'));
   });
-  $$('#navLinks a').forEach((a) => a.addEventListener('click', () => $('#navLinks').classList.remove('is-open')));
+  $$('#navLinks a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && navPanel.classList.contains('is-open')) setMenu(false);
+  });
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 780 && navPanel.classList.contains('is-open')) setMenu(false);
+  });
 
   function clock() {
     const d = new Date();
